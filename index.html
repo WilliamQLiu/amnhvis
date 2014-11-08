@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
- 
+
 	body {
 	font: 14px sans-serif;
 	}
-	 
+
 	.axis path, .axis line {
 	fill: none;
 	stroke: #000;
 	shape-rendering: crispEdges;
 	}
-	 
+
 	.circle {
 	stroke: #000;
 	}
@@ -37,22 +37,22 @@
 	<script>
 		var x = d3.scale.linear()
                .range([0, 1000]);
-                
+
                var y = d3.scale.linear()
                .range([500, 0]);
 
 		var infobox = d3.select("p");	// select our p tag
-			infobox.style("visibility", "hidden");			
+			infobox.style("visibility", "hidden");
 
- 
+
 		var svg = d3.select("body").append("svg")
 		.attr('class', 'svg')
 		.attr("width", 1000)
 		.attr("height",500)
 		.append("g")
- 
+
 		d3.csv(href="https://jobwaffle.s3.amazonaws.com/amnh_data.csv", function(data) {
-		 
+
 		// Coerce the strings to numbers.
 		data.forEach(function(d) {
 			d.x = +d.x;
@@ -66,12 +66,12 @@
 			d.link = d.link;
 			d.appmag = d.appmag;
 		});
- 
+
 		// Compute the scales’ domains.
 		x.domain(d3.extent(data, function(d) { return d.x; })).nice();
 		y.domain(d3.extent(data, function(d) { return d.y; })).nice();
- 
- 
+
+
 		// Add the points!
 		svg.selectAll(".circle")
 		.data(data)
@@ -79,23 +79,36 @@
 		.attr("class", "circle")
 		.attr("d", d3.svg.symbol().type("circle"))
 		.attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; })
-		.attr("r", function(d) { 
+		.attr("r", function(d) {
 					return d.appmag; })
 		.attr("fill", function(d){return d.color;})
 		.attr("opacity", .65)
 		.on("mouseover", function(d) {
 			var circle = d3.select(this);
- 
+
 			var infobox = d3.select("p"); // select our p tag
 			infobox.style("visibility", "visible");	// on mouse over, it should be visible
 			infobox.html("<strong>Distance:</strong> <span style='color:red'>" + d.distly + " light years </span><BR />" +
 			d.date + " " + d.headline + "<BR />" + d.snippet + "<BR /> <A HREF=\"" + d.link + "\">link to story</a>");
 
+			var temp = d3.select(this).attr("r")
+			console.log(temp)
+			d3.select(this).transition().duration(500).attr("r", temp * 1.5)
+
 		})
-		.filter(function(d) { return d.x ==0; })     
-			.style("fill", "#FFF5F2") 
+		.on("mouseout", function(d) {
+			var circle = d3.select(this);
+			var temp = d3.select(this).attr("r")
+			console.log(temp)
+			d3.select(this).transition().duration(500).attr("r", temp * .75)
+		})
+
+
+
+		.filter(function(d) { return d.x ==0; })
+			.style("fill", "#FFF5F2")
 		});
- 
+
 	</script>
 	</div>
 	</body>

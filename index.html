@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
-
+ 
 	body {
 	font: 10px sans-serif;
 	}
-
+	 
 	.axis path, .axis line {
 	fill: none;
 	stroke: #000;
 	shape-rendering: crispEdges;
 	}
-
+	 
 	.circle {
 	stroke: #000;
 	}
@@ -26,69 +26,29 @@
 		text-align: center;
 	}
 
-	/* Below for NY Times style */
-
-	.g-header h1 {
-	margin: 5px 0 10px;
-	line-height: 1.2em;
-	font-size: 40px;
-	font-weight: 300;
-	color: #333;
-	}
-
-	.g-section-body {
-	font-family: 'nyt-franklin', arial, sans-serif;
-	font-weight: 300;
-	font-size: 15px;
-	line-height: 1.5em;
-	color: #666;
-	margin: 0;
-	clear: left;
-	}
-
-
 </style>
-
-<head>
-  <title>Histarry</title>
-</head>
-
-
 <body>
-	<h1 class="g-header">Histarry</h1>
-	<h2 class="g-section-body">We see light coming from stars that left (X) light years ago. In the same way, those stars RIGHT NOW will see light (including radio waves) that left Earth (x) light years ago. Cick on a star, and see what was happening on earth when that star light we see now left that star</h2>
+	<h1>We see light coming from stars that left (X) light years ago. In the same way, those stars RIGHT NOW will see light (including radio waves) that left Earth (x) light years ago. Cick on a star, and see what was happening on earth when that star light we see now left that star</h1>
 	<script src="http://d3js.org/d3.v2.js?2.9.6"></script>
 	<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-
+	
 	<script>
-
+		 
 		var x = d3.scale.linear()
 		.range([0, 1000]);
-
+		 
 		var y = d3.scale.linear()
 		.range([500, 0]);
-
-		var tip = d3.tip()
-		  .attr('class', 'd3-tip')
-		  .offset([-10, 0])
-		  .html(function(d) {
-			if ((d.x == 0) && (d.y == 0))
-				return "THE SUN"
-			else
-		    	return "<strong>Distance:</strong> <span style='color:red'>" + d.distly + " light years </span><BR />" +
-			d.date + " " + d.headline + "<BR /> <A HREF=\"" + d.link + "\">link to story</a>";
-		  })
-
+ 
 		var svg = d3.select("body").append("svg").attr('class', 'svg')
 		.attr("width", 1000)
 		.attr("height",500)
 		.append("g")
-
+	
 		svg.call(tip);
 
-
 		d3.csv(href="https://jobwaffle.s3.amazonaws.com/amnh_data.csv", function(data) {
-
+		 
 		// Coerce the strings to numbers.
 		data.forEach(function(d) {
 			d.x = +d.x;
@@ -102,12 +62,12 @@
 			d.link = d.link;
 			d.appmag = d.appmag;
 		});
-
+ 
 		// Compute the scales’ domains.
 		x.domain(d3.extent(data, function(d) { return d.x; })).nice();
 		y.domain(d3.extent(data, function(d) { return d.y; })).nice();
-
-
+ 
+ 
 		// Add the points!
 		svg.selectAll(".circle")
 		.data(data)
@@ -115,15 +75,15 @@
 		.attr("class", "circle")
 		.attr("d", d3.svg.symbol().type("circle"))
 		.attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; })
-		.attr("r", function(d) {
+		.attr("r", function(d) { 
 					return d.appmag; })
 		.attr("fill", function(d){return d.color;})
 		.on('mouseover', tip.show)
 		.on('mouseout', tip.hide)
-		.filter(function(d) { return d.x ==0; })  //highlight the sun
-			.style("fill", "#FFF5F2")
+		.filter(function(d) { return d.x ==0; })  //highlight the sun     
+			.style("fill", "#FFF5F2") 
 		});
-
+ 
 	</script>
 </body>
 

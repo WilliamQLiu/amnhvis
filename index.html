@@ -38,7 +38,10 @@
 		  .attr('class', 'd3-tip')
 		  .offset([-10, 0])
 		  .html(function(d) {
-		    return "<strong>Distance:</strong> <span style='color:red'>" + d.distly + " light years </span><BR />" +
+			if ((d.x == 0) && (d.y == 0))
+				return "THE SUN"
+			else
+		    	return "<strong>Distance:</strong> <span style='color:red'>" + d.distly + " light years </span><BR />" +
 			d.date + " " + d.headline + "<BR /> <A HREF=\"" + d.link + "\">link to story</a>";
 		  })
  
@@ -81,7 +84,7 @@
 		.on('mouseover', tip.show)
 		.on('mouseout', tip.hide)
 		.filter(function(d) { return d.x ==0; })  //highlight the sun     
-			.style("fill", "red") 
+			.style("fill", "#FFF5F2") 
 		});
  
 	</script>

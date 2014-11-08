@@ -3,7 +3,7 @@
 <style>
  
 	body {
-	font: 10px sans-serif;
+	font: 14px sans-serif;
 	}
 	 
 	.axis path, .axis line {
@@ -22,8 +22,9 @@
 </style>
 <body>
 	<h1>We see light coming from stars that left (X) light years ago. In the same way, those stars RIGHT NOW will see light (including radio waves) that left Earth (x) light years ago. Cick on a star, and see what was happening on earth when that star light we see now left that star</h1>
+
+	<p>info goes here</p>
 	<script src="http://d3js.org/d3.v2.js?2.9.6"></script>
-	<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 	<div class='svg'>
 	<script>
  
@@ -37,24 +38,14 @@
 		var y = d3.scale.linear()
 		.range([height, 0]);
 
-		var tip = d3.tip()
-		  .attr('class', 'd3-tip')
-		  .offset([-10, 0])
-		  .html(function(d) {
-			if ((d.x == 0) && (d.y == 0))
-				return "THE SUN"
-			else
-		    	return "<strong>Distance:</strong> <span style='color:red'>" + d.distly + " light years </span><BR />" +
-			d.date + " " + d.headline + "<BR /> <A HREF=\"" + d.link + "\">link to story</a>";
-		  })
+		var infobox = d3.select("p");	// select our p tag
+			infobox.style("visibility", "hidden");			
+
  
 		var svg = d3.select("body").append("svg")
 		.attr("width", 1000)
 		.attr("height",500)
 		.append("g")
-	
-		svg.call(tip);
-
  
 		d3.csv(href="https://jobwaffle.s3.amazonaws.com/amnh_data.csv", function(data) {
 		 
@@ -87,9 +78,16 @@
 		.attr("r", function(d) { 
 					return d.appmag; })
 		.attr("fill", function(d){return d.color;})
-		.on('mouseover', tip.show)
-		.on('mouseout', tip.hide)
-		.filter(function(d) { return d.x ==0; })  //highlight the sun     
+		.on("mouseover", function(d) {
+			var circle = d3.select(this);
+ 
+			var infobox = d3.select("p"); // select our p tag
+			infobox.style("visibility", "visible");	// on mouse over, it should be visible
+			infobox.html("<strong>Distance:</strong> <span style='color:red'>" + d.distly + " light years </span><BR />" +
+			d.date + " " + d.headline + "<BR />" + d.snippet + "<BR /> <A HREF=\"" + d.link + "\">link to story</a>");
+
+		})
+		.filter(function(d) { return d.x ==0; })     
 			.style("fill", "#FFF5F2") 
 		});
  

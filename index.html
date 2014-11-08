@@ -3,18 +3,21 @@
 <style>
 
 	body {
-	font: 14px sans-serif;
+		font: 14px sans-serif;
+		background: #272822;
+		color: #d3d3d3;
 	}
 
 	.axis path, .axis line {
-	fill: none;
-	stroke: #000;
-	shape-rendering: crispEdges;
+		fill: none;
+		stroke: #000;
+		shape-rendering: crispEdges;
 	}
 
 	.circle {
-	stroke: #000;
+		stroke: #000;
 	}
+
  	.svg {
 		width: 70%;
 		height: 70%;
@@ -27,13 +30,19 @@
 	.header{
 		position: fixed;
 	}
+	.logo {
+		text-align: left;
+	}
+	.infobox {
+		border: thin, black;
+	}
 
 </style>
 <body>
-	<h1 class='intro'>We see light coming from stars that left (X) light years ago. In the same way, those stars RIGHT NOW will see light (including radio waves) that left Earth (x) light years ago. Cick on a star, and see what was happening on earth when that star light we see now left that star</h1>
+	<h1 class='logo'>Star-Date</h1>
+	<!-- <h1 class='intro'>We see light coming from stars that left (X) light years ago. In the same way, those stars RIGHT NOW will see light (including radio waves) that left Earth (x) light years ago. Cick on a star, and see what was happening on earth when that star light we see now left that star</h1> -->
 	<p class='info'></p>
 	<script src="http://d3js.org/d3.v2.js?2.9.6"></script>
-	<div class='header'><h2>Hello</h2></div>
 	<script>
 		var x = d3.scale.linear()
                .range([0, 1000]);
@@ -82,25 +91,20 @@
 		.attr("r", function(d) {
 					return d.appmag; })
 		.attr("fill", function(d){return d.color;})
-		.attr("opacity", .65)
+		.attr("opacity", .75)
 		.on("mouseover", function(d) {
 			var circle = d3.select(this);
 
-			var infobox = d3.select("p"); // select our p tag
+			var infobox = d3.select("p").attr('class', 'infobox'); // select our p tag
 			infobox.style("visibility", "visible");	// on mouse over, it should be visible
-			infobox.html("<strong>Distance:</strong> <span style='color:red'>" + d.distly + " light years </span><BR />" +
+			infobox.html("<strong>Distance:</strong>" + d.distly + " light years </span><BR />" +
 			d.date + " " + d.headline + "<BR />" + d.snippet + "<BR /> <A HREF=\"" + d.link + "\">link to story</a>");
-
-			var temp = d3.select(this).attr("r")
-			console.log(temp)
-			d3.select(this).transition().duration(500).attr("r", temp * 1.5)
+			d3.select(this).transition().duration(500).attr("r", d.appmag * 1.5)
 
 		})
 		.on("mouseout", function(d) {
 			var circle = d3.select(this);
-			var temp = d3.select(this).attr("r")
-			console.log(temp)
-			d3.select(this).transition().duration(500).attr("r", temp * .75)
+			d3.select(this).transition().duration(500).attr("r", d.appmag)
 
 		})
 

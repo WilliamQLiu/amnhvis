@@ -85,12 +85,10 @@
 		.attr("opacity", .65)
 		.on("mouseover", function(d) {
 			var circle = d3.select(this);
- 
 			var infobox = d3.select("p"); // select our p tag
 			infobox.style("visibility", "visible");	// on mouse over, it should be visible
 			infobox.html("<strong>Distance:</strong> <span style='color:red'>" + d.distly + " light years </span><BR />" +
 			d.date + " " + d.headline + "<BR />" + d.snippet + "<BR /> <A HREF=\"" + d.link + "\">link to story</a>");
-
 		})
 		.filter(function(d) { return d.x ==0; })     
 			.style("fill", "#FFF5F2") 

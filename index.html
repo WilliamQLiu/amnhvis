@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+ 
+	body {
+	font: 10px sans-serif;
+	}
+	 
+	.axis path, .axis line {
+	fill: none;
+	stroke: #000;
+	shape-rendering: crispEdges;
+	}
+	 
+	.point {
+	fill: steelblue;
+	stroke: #000;
+	}
+ 
+</style>
+<body>
+	<script src="http://d3js.org/d3.v2.js?2.9.6"></script>
+	<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+	<div class="svg_display">
+	<script>
+
+		<script type="text/javascript">
+			// width
+			var w = 800;
+			// height
+			var h = 800;
+			// empty list of data
+			var data = [];
+			// random generation of 100 pieces of data
+			
+ 
+			// this function will be run everytime we mouse over an element
+			var myMouseOverFunction = function() {
+				// remember how d3 goes through EACH of the selected elements and uses your function for EACH element?
+				// well, everytime the function is used for an element, it has a "secret" variable called 'this' which holds that element.
+				// we use 'this' to increment the current element's radius by 10
+				var circle = d3.select(this);
+				circle.attr("fill", "red" );
+ 
+				var infobox = d3.select("p"); 			// select our p tag 
+				infobox.style("visibility", "visible");		// on mouse over, it should be visible
+				infobox.text("This circle has a radius of " + circle.attr("r") + " pixels.");
+										// simply update the text
+			}
+ 
+			// this function will be run everytime we mouse over an element
+			var myMouseOutFunction = function() {
+				var circle = d3.select(this);
+				circle.attr("fill", "steelblue" );
+ 
+				var infobox = d3.select("p");			// select our p tag
+				infobox.style("visibility", "hidden");		// on mouse out, we want to hide it
+			}
+ 
+			// just generates random numbers for the circle positions
+			var myPositionFunction = function() {
+				return Math.random() * w;
+			}
+			
+			// here we append our blank svg to othe html page
+			var chart = d3.select("body")
+				.append("svg:svg")
+				.attr("width", w)
+				.attr("height", h);
+			
+			// the line spacing here is just for clarity. it doesn't matter
+			chart.selectAll("circle").data(data) 		
+ 
+				.enter().append("svg:circle")  		// for every piece of data, add a circle
+ 
+				.attr("cx", myPositionFunction) 	// use pos function to get x position
+ 
+				.attr("cy", myPositionFunction) 	// use pos function to get y position
+ 
+				.attr("r", function(d) {		// the radius will depend on our data.
+ 
+					return d; 			// this is equivalent to making the functions at the top.
+				})					// we just stick it in directly, rather than save it in a variable.
+ 
+				.attr("fill", "steelblue")		// make errythang STEEL BLUE
+ 
+				.on("mouseover", myMouseOverFunction)	// this says "every time one of these circles is moused over, use this function
+ 
+				.on("mouseout", myMouseOutFunction);  	// and this one "every time the mouse moves out from these circles, use this other function
+		</script>
+		
+ 
+	</script>
+	</div>
+</body>
+
+

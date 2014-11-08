@@ -3,7 +3,7 @@
 <style>
  
 	body {
-	font: 10px sans-serif;
+	font: 14px sans-serif;
 	}
 	 
 	.axis path, .axis line {
@@ -33,19 +33,16 @@
 	<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 	
 	<script>
-		 
-		var x = d3.scale.linear()
-		.range([0, 1000]);
-		 
-		var y = d3.scale.linear()
-		.range([500, 0]);
+
+		var infobox = d3.select("p");	// select our p tag
+			infobox.style("visibility", "hidden");			
+
  
-		var svg = d3.select("body").append("svg").attr('class', 'svg')
+		var svg = d3.select("body").append("svg")
 		.attr("width", 1000)
 		.attr("height",500)
 		.append("g")
-	
-		svg.call(tip);
+ 
 
 		d3.csv(href="https://jobwaffle.s3.amazonaws.com/amnh_data.csv", function(data) {
 		 
@@ -78,13 +75,22 @@
 		.attr("r", function(d) { 
 					return d.appmag; })
 		.attr("fill", function(d){return d.color;})
-		.on('mouseover', tip.show)
-		.on('mouseout', tip.hide)
-		.filter(function(d) { return d.x ==0; })  //highlight the sun     
+
+		.on("mouseover", function(d) {
+			var circle = d3.select(this);
+ 
+			var infobox = d3.select("p"); // select our p tag
+			infobox.style("visibility", "visible");	// on mouse over, it should be visible
+			infobox.html("<strong>Distance:</strong> <span style='color:red'>" + d.distly + " light years </span><BR />" +
+			d.date + " " + d.headline + "<BR />" + d.snippet + "<BR /> <A HREF=\"" + d.link + "\">link to story</a>");
+
+		})
+		.filter(function(d) { return d.x ==0; })     
 			.style("fill", "#FFF5F2") 
 		});
  
 	</script>
-</body>
+	</div>
+	</body>
 
 

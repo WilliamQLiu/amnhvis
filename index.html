@@ -28,15 +28,12 @@
 	<div class='svg'>
 	<script>
  
-		var margin = {top: 20, right: 20, bottom: 30, left: 40},
-		width = 1000 - margin.left - margin.right,
-		height = 500 - margin.top - margin.bottom;
-		 
+			 
 		var x = d3.scale.linear()
-		.range([0, width]);
+		.range([0, 1000]);
 		 
 		var y = d3.scale.linear()
-		.range([height, 0]);
+		.range([500, 0]);
 
 		var infobox = d3.select("p");	// select our p tag
 			infobox.style("visibility", "hidden");			

@@ -16,7 +16,6 @@
 	stroke: #000;
 	}
  	.svg {
-		text-align: center;
 		width: 70%;
 		height: 70%;
 		margin-left: 15%;
@@ -25,25 +24,33 @@
 	h1{
 		text-align: center;
 	}
+	.header{
+		position: fixed;
+	}
 
 </style>
 <body>
-	<h1>We see light coming from stars that left (X) light years ago. In the same way, those stars RIGHT NOW will see light (including radio waves) that left Earth (x) light years ago. Cick on a star, and see what was happening on earth when that star light we see now left that star</h1>
+	<h1 class='intro'>We see light coming from stars that left (X) light years ago. In the same way, those stars RIGHT NOW will see light (including radio waves) that left Earth (x) light years ago. Cick on a star, and see what was happening on earth when that star light we see now left that star</h1>
+	<p class='info'></p>
 	<script src="http://d3js.org/d3.v2.js?2.9.6"></script>
-	<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-	
+	<div class='header'><h2>Hello</h2></div>
 	<script>
+		var x = d3.scale.linear()
+               .range([0, 1000]);
+                
+               var y = d3.scale.linear()
+               .range([500, 0]);
 
 		var infobox = d3.select("p");	// select our p tag
 			infobox.style("visibility", "hidden");			
 
  
 		var svg = d3.select("body").append("svg")
+		.attr('class', 'svg')
 		.attr("width", 1000)
 		.attr("height",500)
 		.append("g")
  
-
 		d3.csv(href="https://jobwaffle.s3.amazonaws.com/amnh_data.csv", function(data) {
 		 
 		// Coerce the strings to numbers.
@@ -75,7 +82,7 @@
 		.attr("r", function(d) { 
 					return d.appmag; })
 		.attr("fill", function(d){return d.color;})
-
+		.attr("opacity", .65)
 		.on("mouseover", function(d) {
 			var circle = d3.select(this);
  
